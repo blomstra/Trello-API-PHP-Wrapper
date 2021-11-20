@@ -11,7 +11,7 @@ Installation
 ======
 
 ```bash
-$ composer require sanovskiy/trello-php7
+$ composer require bkintanar/trello-php
 ```
 
 Usage

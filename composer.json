@@ -1,14 +1,14 @@
 {
-    "name": "sanovskiy/trello-php7",
+    "name": "bkintanar/trello-php",
     "type": "library",
-    "description": "PHP Trello API Wrapper (fork for php7+) from https://github.com/ashwinks/Trello-API-PHP-Wrapper",
+    "description": "PHP Trello API Wrapper (+missing models) from https://github.com/sanovskiy/Trello-API-PHP-Wrapper",
     "keywords": [
         "trello",
         "api",
         "trello api wrapper",
         "fork"
     ],
-    "homepage": "https://github.com/sanovskiy/Trello-API-PHP-Wrapper",
+    "homepage": "https://github.com/bkintanar/Trello-API-PHP-Wrapper",
     "license": "MIT",
     "authors": [
         {
@@ -19,10 +19,14 @@
         {
             "name": "Pavel Terentyev",
             "email": "pavel.terentyev@gmail.com"
+        },
+        {
+            "name": "Bertrand Kintanar",
+            "email": "bertrand.kintanar@gmail.com"
         }
     ],
     "require": {
-        "php": ">=7.0.0",
+        "php": ">=7.0.0 || >= 8.0.0",
         "ext-curl": "*",
         "ext-json": "*"
     },
