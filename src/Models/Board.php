@@ -77,6 +77,23 @@ class Board extends BaseObject
         return $tmp;
     }
 
+    /**
+     * @param array $params
+     *
+     * @return array
+     */
+    public function getLabels(array $params = []): array
+    {
+        $data = $this->getPath('labels', $params);
+
+        $tmp = [];
+        foreach ($data as $item) {
+            $tmp[] = new Label($this->getClient(), $item);
+        }
+
+        return $tmp;
+    }
+
     public function copy($new_name = null, array $copy_fields = [])
     {
         if ($this->getId()) {

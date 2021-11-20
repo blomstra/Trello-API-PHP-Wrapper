@@ -11,10 +11,11 @@ use Trello\Models\Organization;
 
 class Client
 {
-    public const MODEL_BOARDS = 'boards';
     public const MODEL_ACTIONS = 'actions';
+    public const MODEL_BOARDS = 'boards';
     public const MODEL_CARDS = 'cards';
     public const MODEL_CHECKLISTS = 'checklists';
+    public const MODEL_LABELS = 'labels';
     public const MODEL_LISTS = 'lists';
     public const MODEL_MEMBERS = 'members';
     public const MODEL_NOTIFICATIONS = 'notifications';
@@ -23,6 +24,7 @@ class Client
     public const MODEL_TOKEN = 'tokens';
     public const MODEL_TYPE = 'types';
     public const MODEL_WEBHOOKS = 'webhooks';
+
     private $_api_key;
     private $_api_secret;
     private $_access_token;
