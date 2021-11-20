@@ -3,11 +3,11 @@
 namespace Trello;
 
 use RuntimeException;
-use Trello\Model\Card;
-use Trello\Model\Board;
-use Trello\Model\Action;
+use Trello\Models\Card;
+use Trello\Models\Board;
+use Trello\Models\Action;
 use InvalidArgumentException;
-use Trello\Model\Organization;
+use Trello\Models\Organization;
 
 class Client
 {

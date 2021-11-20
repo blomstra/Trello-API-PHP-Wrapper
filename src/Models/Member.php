@@ -1,6 +1,6 @@
 <?php
 
-namespace Trello\Model;
+namespace Trello\Models;
 
 class Member extends BaseObject
 {

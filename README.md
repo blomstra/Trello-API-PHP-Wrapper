@@ -36,7 +36,7 @@ $client->setAccessToken($returned_token);
 Get organizations
 
 ```php
-$member_obj = new \Trello\Model\Member($client);
+$member_obj = new \Trello\Models\Member($client);
 $member_obj->setId('userid');
 $orgs = $member_obj->getOrganizations();
 ```
@@ -50,7 +50,7 @@ $board = $client->getBoard($board_id);
 Another way to get a board (or any object)
 
 ```php
-$board = new \Trello\Model\Board($client);
+$board = new \Trello\Models\Board($client);
 $board->setId($board_id);
 $board = $board->get();
 ```
@@ -77,7 +77,7 @@ $card->save();
 Create a new card (or any object)
 
 ```php
-$card = new \Trello\Model\Card($client);
+$card = new \Trello\Models\Card($client);
 $card->name = 'some card name';
 $card->desc = 'some card desc';
 $card->idList = $list_id;

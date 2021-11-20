@@ -1,6 +1,6 @@
 <?php
 
-namespace Trello\Model;
+namespace Trello\Models;
 
 use InvalidArgumentException;
 
@@ -71,7 +71,7 @@ class Card extends BaseObject
      * Default: all
      * Valid Values: Properties of the card to copy over from the source.
      *
-     * @see \Trello\Model\BaseObject::save()
+     * @see \Trello\Models\BaseObject::save()
      */
     public function save()
     {
