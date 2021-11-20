@@ -4,7 +4,6 @@ namespace Trello\Model;
 
 class Member extends BaseObject
 {
-
     protected $_model = 'members';
 
     /**
@@ -14,13 +13,12 @@ class Member extends BaseObject
     {
         $data = $this->getPath('boards');
 
-        $tmp = array();
-        foreach ($data as $item){
+        $tmp = [];
+        foreach ($data as $item) {
             $tmp[] = new Board($this->getClient(), $item);
         }
 
         return $tmp;
-
     }
 
     /**
@@ -30,29 +28,28 @@ class Member extends BaseObject
     {
         $data = $this->getPath('organizations');
 
-        $tmp = array();
-        foreach ($data as $item){
+        $tmp = [];
+        foreach ($data as $item) {
             $tmp[] = new Organization($this->getClient(), $item);
         }
 
         return $tmp;
-
     }
 
     /**
      * @param array $params
+     *
      * @return array
      */
     public function getCards(array $params = []): array
     {
         $data = $this->getPath('cards', $params);
 
-        $tmp = array();
-        foreach ($data as $item){
+        $tmp = [];
+        foreach ($data as $item) {
             $tmp[] = new Card($this->getClient(), $item);
         }
 
         return $tmp;
     }
-
 }

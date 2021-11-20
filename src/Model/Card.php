@@ -6,27 +6,24 @@ use InvalidArgumentException;
 
 /**
  * Class Card
- * @package Trello\Model
+ *
  * @method Card get()
  */
 class Card extends BaseObject
 {
-
     protected $_model = 'cards';
 
     public function copy($new_name = null, $new_list_id = null, array $copy_fields = [])
     {
-
         if ($this->getId()) {
-
             $tmp = new self($this->getClient());
-            if (!$new_name) {
+            if (! $new_name) {
                 $tmp->name = $this->name . ' Copy';
             } else {
                 $tmp->name = $new_name;
             }
 
-            if (!$new_list_id) {
+            if (! $new_list_id) {
                 $tmp->idList = $this->idList;
             } else {
                 $tmp->idList = $new_list_id;
@@ -34,16 +31,14 @@ class Card extends BaseObject
 
             $tmp->idCardSource = $this->getId();
 
-            if (!empty($copy_fields)) {
+            if (! empty($copy_fields)) {
                 $tmp->keepFromSource = implode(',', $copy_fields);
             }
 
             return $tmp->save();
-
         }
 
         return false;
-
     }
 
     /**
@@ -75,11 +70,11 @@ class Card extends BaseObject
      * keepFromSource (optional)
      * Default: all
      * Valid Values: Properties of the card to copy over from the source.
+     *
      * @see \Trello\Model\BaseObject::save()
      */
     public function save()
     {
-
         if (empty($this->name)) {
             throw new InvalidArgumentException('Missing required field "name"');
         }
@@ -101,7 +96,5 @@ class Card extends BaseObject
         }
 
         return parent::save();
-
     }
-
 }

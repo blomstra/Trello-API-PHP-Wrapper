@@ -2,28 +2,27 @@
 
 namespace Trello;
 
-use InvalidArgumentException;
 use RuntimeException;
-use Trello\Model\Action;
-use Trello\Model\Board;
 use Trello\Model\Card;
+use Trello\Model\Board;
+use Trello\Model\Action;
+use InvalidArgumentException;
 use Trello\Model\Organization;
 
 class Client
 {
-
-    const MODEL_BOARDS = 'boards';
-    const MODEL_ACTIONS = 'actions';
-    const MODEL_CARDS = 'cards';
-    const MODEL_CHECKLISTS = 'checklists';
-    const MODEL_LISTS = 'lists';
-    const MODEL_MEMBERS = 'members';
-    const MODEL_NOTIFICATIONS = 'notifications';
-    const MODEL_ORGANIZATIONS = 'organizations';
-    const MODEL_SEARCH = 'search';
-    const MODEL_TOKEN = 'tokens';
-    const MODEL_TYPE = 'types';
-    const MODEL_WEBHOOKS = 'webhooks';
+    public const MODEL_BOARDS = 'boards';
+    public const MODEL_ACTIONS = 'actions';
+    public const MODEL_CARDS = 'cards';
+    public const MODEL_CHECKLISTS = 'checklists';
+    public const MODEL_LISTS = 'lists';
+    public const MODEL_MEMBERS = 'members';
+    public const MODEL_NOTIFICATIONS = 'notifications';
+    public const MODEL_ORGANIZATIONS = 'organizations';
+    public const MODEL_SEARCH = 'search';
+    public const MODEL_TOKEN = 'tokens';
+    public const MODEL_TYPE = 'types';
+    public const MODEL_WEBHOOKS = 'webhooks';
     private $_api_key;
     private $_api_secret;
     private $_access_token;
@@ -36,25 +35,24 @@ class Client
      * @param string $api_key
      * @param string $secret
      * @param string $access_token
+     *
      * @throws InvalidArgumentException
      */
     public function __construct(string $api_key, string $access_token = null, $secret = null)
     {
-
         if (empty($api_key)) {
             throw new InvalidArgumentException('Invalid API key');
         }
 
         $this->_api_key = trim($api_key);
 
-        if (!empty($secret)) {
+        if (! empty($secret)) {
             $this->_api_secret = trim($secret);
         }
 
-        if (!empty($access_token)) {
+        if (! empty($access_token)) {
             $this->setAccessToken($access_token);
         }
-
     }
 
     /**
@@ -65,9 +63,10 @@ class Client
      * @param array $scopes
      * @param string $expiration
      * @param string $callback_method
-     * @return string
+     *
      * @throws InvalidArgumentException
      *
+     * @return string
      */
     public function getAuthorizationUrl(
         string $application_name,
@@ -81,6 +80,7 @@ class Client
          * @param string $argumentName
          * @param string $value
          * @param array $validArray
+         *
          * @throws InvalidArgumentException
          */
         $triggerArgumentError = static function (string $argumentName, string $value, array $validArray) {
@@ -91,21 +91,22 @@ class Client
         $valid_scopes = ['read', 'write', 'account'];
         $valid_callback_methods = ['postMessage', 'fragment'];
 
-        if (!in_array($expiration, $valid_expirations, true)) {
+        if (! in_array($expiration, $valid_expirations, true)) {
             $triggerArgumentError('expiration', $expiration, $valid_expirations);
         }
 
         foreach ($scopes as $v) {
-            if (!in_array($v, $valid_scopes, true)) {
+            if (! in_array($v, $valid_scopes, true)) {
                 $triggerArgumentError('scope', $v, $valid_scopes);
             }
         }
 
-        if (!in_array($callback_method, $valid_callback_methods, true)) {
+        if (! in_array($callback_method, $valid_callback_methods, true)) {
             $triggerArgumentError('callback method', $callback_method, $valid_callback_methods);
         }
 
-        return sprintf('%s/authorize?callback_method=%s&return_url=%s&scope=%s&expiration=%s&name=%s&key=%s',
+        return sprintf(
+            '%s/authorize?callback_method=%s&return_url=%s&scope=%s&expiration=%s&name=%s&key=%s',
             $this->getApiBaseUrl(),
             $callback_method,
             $return_url,
@@ -193,8 +194,8 @@ class Client
     }
 
     /**
-     *
      * @param string $id
+     *
      * @return Organization
      */
     public function getOrganization(string $id): Organization
@@ -235,13 +236,13 @@ class Client
      * @param string $method
      * @param array $headers
      * @param array $curl_options
-     * @return array
+     *
      * @throws RuntimeException
      *
+     * @return array
      */
     protected function _makeRequest(string $url, array $payload = [], string $method = 'GET', array $headers = [], array $curl_options = []): array
     {
-
         $url = sprintf('%s/%s?key=%s', $this->getApiBaseUrl(), $url, $this->getApiKey());
         if ($this->getAccessToken()) {
             $url .= '&token=' . $this->getAccessToken();
@@ -252,6 +253,7 @@ class Client
 
         /**
          * CURLOPT_SSL_VERIFYPEER needed here to avoid ssl verifications problems on hosts without properly configured ssl-client
+         *
          * @noinspection CurlSslServerSpoofingInspection
          */
         $options = [
@@ -264,7 +266,7 @@ class Client
         ];
 
 
-        if (!empty($payload)) {
+        if (! empty($payload)) {
             if (strtoupper($method) === 'GET') {
                 $options[CURLOPT_URL] .= '&' . http_build_query($payload, '&');
             } else {
@@ -275,7 +277,7 @@ class Client
             }
         }
 
-        if (!empty($curl_options)) {
+        if (! empty($curl_options)) {
             $options = array_merge($options, $curl_options);
         }
 
@@ -293,12 +295,11 @@ class Client
 
         $response = json_decode($this->_raw_response, true);
 
-        if ($response === null || !is_array($response)) {
+        if ($response === null || ! is_array($response)) {
             throw new RuntimeException('Could not decode response JSON - Response: ' . $this->_raw_response, $this->_debug_info['http_code']);
         }
 
         return $response;
-
     }
 
     /**
@@ -331,7 +332,7 @@ class Client
      */
     protected function _getCurlHandle()
     {
-        if (!$this->_curl_handle) {
+        if (! $this->_curl_handle) {
             $this->_curl_handle = curl_init();
         }
         return $this->_curl_handle;
@@ -369,6 +370,7 @@ class Client
      * Make a DELETE request
      *
      * @param string $path
+     *
      * @return array
      */
     public function delete(string $path): array
