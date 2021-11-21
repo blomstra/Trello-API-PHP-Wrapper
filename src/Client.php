@@ -174,7 +174,7 @@ class Client
      *
      * @return Card
      */
-    public function getCard(string $id): Model\Card
+    public function getCard(string $id): Card
     {
         $obj = new Card($this);
         $obj->setId($id);

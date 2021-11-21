@@ -97,4 +97,12 @@ class Card extends BaseObject
 
         return parent::save();
     }
+
+    /**
+     * Add a label to the card
+     */
+    public function addLabel($label)
+    {
+        return $this->postPath('idLabels', ['value' => $label->getId()]);
+    }
 }

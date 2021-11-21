@@ -89,6 +89,19 @@ abstract class BaseObject implements ArrayAccess, Countable, Iterator
     }
 
     /**
+     * Post relative data
+     *
+     * @param string $path
+     * @param array $payload
+     *
+     * @return array
+     */
+    public function postPath($path, array $payload = []): array
+    {
+        return $this->getClient()->post($this->getModel() . '/' . $this->getId() . '/' . $path, $payload);
+    }
+
+    /**
      * @return mixed
      */
     public function getModel()
