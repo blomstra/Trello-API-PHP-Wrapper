@@ -94,6 +94,23 @@ class Board extends BaseObject
         return $tmp;
     }
 
+    /**
+     * @param array $params
+     *
+     * @return array
+     */
+    public function getMembers(array $params = []): array
+    {
+        $data = $this->getPath('members', $params);
+
+        $tmp = [];
+        foreach ($data as $item) {
+            $tmp[] = new Member($this->getClient(), $item);
+        }
+
+        return $tmp;
+    }
+
     public function copy($new_name = null, array $copy_fields = [])
     {
         if ($this->getId()) {
