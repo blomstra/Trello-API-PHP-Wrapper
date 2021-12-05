@@ -105,4 +105,16 @@ class Card extends BaseObject
     {
         return $this->postPath('idLabels', ['value' => $label->getId()]);
     }
+
+    /**
+     * Add a Member to a Card
+     *
+     * @param $member
+     *
+     * @return array
+     */
+    public function addMember($member)
+    {
+        return $this->postPath('idMembers', ['value' => $member->getId()]);
+    }
 }
