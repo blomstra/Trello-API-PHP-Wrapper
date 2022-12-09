@@ -1,12 +1,21 @@
 <?php
 
+/*
+ * This file is part of blomstra/trello-php.
+ *
+ * Copyright (c) 2022 Blomstra Ltd.
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Trello;
 
-use RuntimeException;
-use Trello\Models\Card;
-use Trello\Models\Board;
-use Trello\Models\Action;
 use InvalidArgumentException;
+use RuntimeException;
+use Trello\Models\Action;
+use Trello\Models\Board;
+use Trello\Models\Card;
 use Trello\Models\Organization;
 
 class Client
@@ -48,21 +57,21 @@ class Client
 
         $this->_api_key = trim($api_key);
 
-        if (! empty($secret)) {
+        if (!empty($secret)) {
             $this->_api_secret = trim($secret);
         }
 
-        if (! empty($access_token)) {
+        if (!empty($access_token)) {
             $this->setAccessToken($access_token);
         }
     }
 
     /**
-     * Get's a URL to redirect the user to for them to login and authroize your app
+     * Get's a URL to redirect the user to for them to login and authroize your app.
      *
      * @param string $application_name
      * @param string $return_url
-     * @param array $scopes
+     * @param array  $scopes
      * @param string $expiration
      * @param string $callback_method
      *
@@ -81,7 +90,7 @@ class Client
         /**
          * @param string $argumentName
          * @param string $value
-         * @param array $validArray
+         * @param array  $validArray
          *
          * @throws InvalidArgumentException
          */
@@ -93,17 +102,17 @@ class Client
         $valid_scopes = ['read', 'write', 'account'];
         $valid_callback_methods = ['postMessage', 'fragment'];
 
-        if (! in_array($expiration, $valid_expirations, true)) {
+        if (!in_array($expiration, $valid_expirations, true)) {
             $triggerArgumentError('expiration', $expiration, $valid_expirations);
         }
 
         foreach ($scopes as $v) {
-            if (! in_array($v, $valid_scopes, true)) {
+            if (!in_array($v, $valid_scopes, true)) {
                 $triggerArgumentError('scope', $v, $valid_scopes);
             }
         }
 
-        if (! in_array($callback_method, $valid_callback_methods, true)) {
+        if (!in_array($callback_method, $valid_callback_methods, true)) {
             $triggerArgumentError('callback method', $callback_method, $valid_callback_methods);
         }
 
@@ -120,7 +129,7 @@ class Client
     }
 
     /**
-     * Get the APIs base url
+     * Get the APIs base url.
      *
      * @return string
      */
@@ -130,7 +139,7 @@ class Client
     }
 
     /**
-     * Get the API eky
+     * Get the API eky.
      *
      * @return string
      */
@@ -140,7 +149,7 @@ class Client
     }
 
     /**
-     * Set the APIs base url
+     * Set the APIs base url.
      *
      * @param string $url
      *
@@ -154,7 +163,7 @@ class Client
     }
 
     /**
-     * Get a board
+     * Get a board.
      *
      * @param string $id
      *
@@ -164,11 +173,12 @@ class Client
     {
         $obj = new Board($this);
         $obj->setId($id);
+
         return $obj->get();
     }
 
     /**
-     * Get a card
+     * Get a card.
      *
      * @param string $id
      *
@@ -178,11 +188,12 @@ class Client
     {
         $obj = new Card($this);
         $obj->setId($id);
+
         return $obj->get();
     }
 
     /**
-     * Get an action
+     * Get an action.
      *
      * @param string $id
      *
@@ -192,6 +203,7 @@ class Client
     {
         $obj = new Action($this);
         $obj->setId($id);
+
         return $obj->get();
     }
 
@@ -204,11 +216,12 @@ class Client
     {
         $obj = new Organization($this);
         $obj->setId($id);
+
         return $obj->get();
     }
 
     /**
-     * Get the API secret
+     * Get the API secret.
      *
      * @return string
      */
@@ -218,10 +231,10 @@ class Client
     }
 
     /**
-     * Make a GET request
+     * Make a GET request.
      *
      * @param string $path
-     * @param array $payload
+     * @param array  $payload
      *
      * @return array
      */
@@ -231,13 +244,13 @@ class Client
     }
 
     /**
-     * Make a CURL request
+     * Make a CURL request.
      *
      * @param string $url
-     * @param array $payload
+     * @param array  $payload
      * @param string $method
-     * @param array $headers
-     * @param array $curl_options
+     * @param array  $headers
+     * @param array  $curl_options
      *
      * @throws RuntimeException
      *
@@ -247,14 +260,14 @@ class Client
     {
         $url = sprintf('%s/%s?key=%s', $this->getApiBaseUrl(), $url, $this->getApiKey());
         if ($this->getAccessToken()) {
-            $url .= '&token=' . $this->getAccessToken();
+            $url .= '&token='.$this->getAccessToken();
         }
 
         $ch = $this->_getCurlHandle();
         $method = strtoupper($method);
 
         /**
-         * CURLOPT_SSL_VERIFYPEER needed here to avoid ssl verifications problems on hosts without properly configured ssl-client
+         * CURLOPT_SSL_VERIFYPEER needed here to avoid ssl verifications problems on hosts without properly configured ssl-client.
          *
          * @noinspection CurlSslServerSpoofingInspection
          */
@@ -267,19 +280,18 @@ class Client
             CURLOPT_FOLLOWLOCATION => true,
         ];
 
-
-        if (! empty($payload)) {
+        if (!empty($payload)) {
             if (strtoupper($method) === 'GET') {
-                $options[CURLOPT_URL] .= '&' . http_build_query($payload, '&');
+                $options[CURLOPT_URL] .= '&'.http_build_query($payload, '&');
             } else {
                 $options[CURLOPT_POST] = true;
                 $options[CURLOPT_POSTFIELDS] = http_build_query($payload);
-                $headers[] = 'Content-Length: ' . strlen($options[CURLOPT_POSTFIELDS]);
+                $headers[] = 'Content-Length: '.strlen($options[CURLOPT_POSTFIELDS]);
                 $options[CURLOPT_HTTPHEADER] = $headers;
             }
         }
 
-        if (! empty($curl_options)) {
+        if (!empty($curl_options)) {
             $options = array_merge($options, $curl_options);
         }
 
@@ -288,24 +300,24 @@ class Client
         $this->_debug_info = curl_getinfo($ch);
 
         if ($this->_raw_response === false) {
-            throw new RuntimeException('Request Error: ' . curl_error($ch));
+            throw new RuntimeException('Request Error: '.curl_error($ch));
         }
 
         if ($this->_debug_info['http_code'] < 200 || $this->_debug_info['http_code'] >= 400) {
-            throw new RuntimeException('API Request failed - Response: ' . $this->_raw_response, $this->_debug_info['http_code']);
+            throw new RuntimeException('API Request failed - Response: '.$this->_raw_response, $this->_debug_info['http_code']);
         }
 
         $response = json_decode($this->_raw_response, true);
 
-        if ($response === null || ! is_array($response)) {
-            throw new RuntimeException('Could not decode response JSON - Response: ' . $this->_raw_response, $this->_debug_info['http_code']);
+        if ($response === null || !is_array($response)) {
+            throw new RuntimeException('Could not decode response JSON - Response: '.$this->_raw_response, $this->_debug_info['http_code']);
         }
 
         return $response;
     }
 
     /**
-     * Get the access token
+     * Get the access token.
      *
      * @return string
      */
@@ -315,7 +327,7 @@ class Client
     }
 
     /**
-     * After a user has authenticated and approved your app, they're presented with an access token. Set it here
+     * After a user has authenticated and approved your app, they're presented with an access token. Set it here.
      *
      * @param string $token
      *
@@ -324,28 +336,30 @@ class Client
     public function setAccessToken($token): Client
     {
         $this->_access_token = trim($token);
+
         return $this;
     }
 
     /**
-     * Singleton to get a CURL handle
+     * Singleton to get a CURL handle.
      *
      * @return false|resource
      */
     protected function _getCurlHandle()
     {
-        if (! $this->_curl_handle) {
+        if (!$this->_curl_handle) {
             $this->_curl_handle = curl_init();
         }
+
         return $this->_curl_handle;
     }
 
     /**
-     * Make a POST request
+     * Make a POST request.
      *
      * @param string $path
-     * @param array $payload
-     * @param array $headers
+     * @param array  $payload
+     * @param array  $headers
      *
      * @return array
      */
@@ -355,11 +369,11 @@ class Client
     }
 
     /**
-     * Make a PUT request
+     * Make a PUT request.
      *
      * @param string $path
-     * @param array $payload
-     * @param array $headers
+     * @param array  $payload
+     * @param array  $headers
      *
      * @return array
      */
@@ -369,7 +383,7 @@ class Client
     }
 
     /**
-     * Make a DELETE request
+     * Make a DELETE request.
      *
      * @param string $path
      *
@@ -381,7 +395,7 @@ class Client
     }
 
     /**
-     * Get the raw unparsed response returned from the CURL request
+     * Get the raw unparsed response returned from the CURL request.
      *
      * @return string
      */
@@ -396,7 +410,7 @@ class Client
     }
 
     /**
-     * Closes the currently open CURL handle
+     * Closes the currently open CURL handle.
      */
     public function __destruct()
     {

@@ -1,12 +1,21 @@
 <?php
 
+/*
+ * This file is part of blomstra/trello-php.
+ *
+ * Copyright (c) 2022 Blomstra Ltd.
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Trello\Models;
 
-use Iterator;
-use Countable;
 use ArrayAccess;
-use Trello\Client;
+use Countable;
 use InvalidArgumentException;
+use Iterator;
+use Trello\Client;
 
 abstract class BaseObject implements ArrayAccess, Countable, Iterator
 {
@@ -23,7 +32,7 @@ abstract class BaseObject implements ArrayAccess, Countable, Iterator
     }
 
     /**
-     * Save an object
+     * Save an object.
      *
      * @return BaseObject
      */
@@ -33,7 +42,7 @@ abstract class BaseObject implements ArrayAccess, Countable, Iterator
             return $this->update();
         }
 
-        $response = $this->getClient()->post($this->getModel() . '/' . $this->getId(), $this->toArray());
+        $response = $this->getClient()->post($this->getModel().'/'.$this->getId(), $this->toArray());
 
         $child = get_class($this);
 
@@ -45,11 +54,11 @@ abstract class BaseObject implements ArrayAccess, Countable, Iterator
      */
     public function update()
     {
-        if (! $this->getId()) {
+        if (!$this->getId()) {
             throw new InvalidArgumentException('There is no ID set for this object - Please call setId before calling update');
         }
 
-        $response = $this->getClient()->put($this->getModel() . '/' . $this->getId(), $this->toArray());
+        $response = $this->getClient()->put($this->getModel().'/'.$this->getId(), $this->toArray());
 
         $child = get_class($this);
 
@@ -57,7 +66,7 @@ abstract class BaseObject implements ArrayAccess, Countable, Iterator
     }
 
     /**
-     * Get an item by id ($this->id)
+     * Get an item by id ($this->id).
      *
      * @throws InvalidArgumentException
      *
@@ -65,40 +74,40 @@ abstract class BaseObject implements ArrayAccess, Countable, Iterator
      */
     public function get()
     {
-        if (! $this->getId()) {
+        if (!$this->getId()) {
             throw new InvalidArgumentException('There is no ID set for this object - Please call setId before calling get');
         }
 
         $child = get_class($this);
-        $response = $this->getClient()->get($this->getModel() . '/' . $this->getId());
+        $response = $this->getClient()->get($this->getModel().'/'.$this->getId());
 
         return new $child($this->getClient(), $response);
     }
 
     /**
-     * Get relative data
+     * Get relative data.
      *
      * @param string $path
-     * @param array $payload
+     * @param array  $payload
      *
      * @return array
      */
     public function getPath($path, array $payload = []): array
     {
-        return $this->getClient()->get($this->getModel() . '/' . $this->getId() . '/' . $path, $payload);
+        return $this->getClient()->get($this->getModel().'/'.$this->getId().'/'.$path, $payload);
     }
 
     /**
-     * Post relative data
+     * Post relative data.
      *
      * @param string $path
-     * @param array $payload
+     * @param array  $payload
      *
      * @return array
      */
     public function postPath($path, array $payload = []): array
     {
-        return $this->getClient()->post($this->getModel() . '/' . $this->getId() . '/' . $path, $payload);
+        return $this->getClient()->post($this->getModel().'/'.$this->getId().'/'.$path, $payload);
     }
 
     /**
@@ -205,7 +214,7 @@ abstract class BaseObject implements ArrayAccess, Countable, Iterator
 
     public function next(): void
     {
-        ++$this->_position;
+        $this->_position++;
     }
 
     public function valid(): bool

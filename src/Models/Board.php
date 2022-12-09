@@ -1,9 +1,18 @@
 <?php
 
+/*
+ * This file is part of blomstra/trello-php.
+ *
+ * Copyright (c) 2022 Blomstra Ltd.
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Trello\Models;
 
 /**
- * Class Board
+ * Class Board.
  *
  * @method Board get()
  */
@@ -40,6 +49,7 @@ class Board extends BaseObject
     public function getCard($card_id, array $params = []): Card
     {
         $data = $this->getPath("cards/{$card_id}", $params);
+
         return new Card($this->getClient(), $data);
     }
 
@@ -115,14 +125,14 @@ class Board extends BaseObject
     {
         if ($this->getId()) {
             $tmp = new self($this->getClient());
-            if (! $new_name) {
-                $tmp->name = $this->name . ' Copy';
+            if (!$new_name) {
+                $tmp->name = $this->name.' Copy';
             } else {
                 $tmp->name = $new_name;
             }
             $tmp->idBoardSource = $this->getId();
 
-            if (! empty($copy_fields)) {
+            if (!empty($copy_fields)) {
                 $tmp->keepFromSource = implode(',', $copy_fields);
             }
 

@@ -1,11 +1,20 @@
 <?php
 
+/*
+ * This file is part of blomstra/trello-php.
+ *
+ * Copyright (c) 2022 Blomstra Ltd.
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Trello\Models;
 
 use InvalidArgumentException;
 
 /**
- * Class Card
+ * Class Card.
  *
  * @method Card get()
  */
@@ -17,13 +26,13 @@ class Card extends BaseObject
     {
         if ($this->getId()) {
             $tmp = new self($this->getClient());
-            if (! $new_name) {
-                $tmp->name = $this->name . ' Copy';
+            if (!$new_name) {
+                $tmp->name = $this->name.' Copy';
             } else {
                 $tmp->name = $new_name;
             }
 
-            if (! $new_list_id) {
+            if (!$new_list_id) {
                 $tmp->idList = $this->idList;
             } else {
                 $tmp->idList = $new_list_id;
@@ -31,7 +40,7 @@ class Card extends BaseObject
 
             $tmp->idCardSource = $this->getId();
 
-            if (! empty($copy_fields)) {
+            if (!empty($copy_fields)) {
                 $tmp->keepFromSource = implode(',', $copy_fields);
             }
 
@@ -44,7 +53,7 @@ class Card extends BaseObject
     /**
      * Arguments
      * name (required)
-     * Valid Values: a string with a length from 1 to 16384
+     * Valid Values: a string with a length from 1 to 16384.
      *
      * desc (optional)
      * Valid Values: a string with a length from 0 to 16384
@@ -99,7 +108,7 @@ class Card extends BaseObject
     }
 
     /**
-     * Add a label to the card
+     * Add a label to the card.
      */
     public function addLabel($label)
     {
@@ -107,7 +116,7 @@ class Card extends BaseObject
     }
 
     /**
-     * Add a Member to a Card
+     * Add a Member to a Card.
      *
      * @param $member
      *
