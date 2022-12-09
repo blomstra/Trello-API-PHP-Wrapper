@@ -154,12 +154,12 @@ abstract class BaseObject implements ArrayAccess, Countable, Iterator
         return $this->offsetUnset($key);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return $this->_data;
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if ($offset === null) {
             $this->_data[] = $value;
@@ -168,47 +168,47 @@ abstract class BaseObject implements ArrayAccess, Countable, Iterator
         }
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->_data[$offset]);
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->_data[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->_data[$offset] ?? null;
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->_data);
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->_position = 0;
     }
 
-    public function current()
+    public function current(): mixed
     {
         return $this->_data[$this->_position];
     }
 
-    public function key()
+    public function key(): mixed
     {
         return $this->_position;
     }
 
-    public function next()
+    public function next(): void
     {
         ++$this->_position;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->_data[$this->_position]);
     }
