@@ -9,7 +9,7 @@ This repo contains a fix to use this library with php7.2+
 # Installation
 
 ```bash
-$ composer require bkintanar/trello-php
+$ composer require blomstra/trello-php
 ```
 
 # Usage
